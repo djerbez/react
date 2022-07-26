@@ -1,38 +1,30 @@
-import React, {useEffect, useState} from "react"
-const Search = (props) => {
-  return (<div>
-    <h1>{props.search}</h1>
-    <input style={{width: '300px', height:'80px'}}
-    value={props.search}
-    onChange={(event)=>props.setSearch(event.target.value, event)}></input>
-  </div>)
-}
-const App = () => {
-  const [search, setSearch] = useState('');
-  const [counter, setCounter] = useState(0);
-  const [loading, setLoading] = useState(true);
-  useEffect(()=>{
-setTimeout(()=> {
-  setLoading(false)
-}, 3000)
-  }, [])
+import React, { useEffect, useState } from "react";
 
-   return (
+const names = ["John", "Jane", "Mary", "Tom"];
+const App = () => {
+  const [score, setScore] = useState(0);
+  const [name, setName] = useState(names[0]);
+
+  useEffect(()=>{
+    setName(names[score])
+  }, [score])
+  
+  const increaseScore = () => {
+    if (score<names.length - 1) {
+      setScore(score+1)
+    }
+  }
+    const decreaseScore = () => {
+      if (score>0) {
+        setScore(score-1)
+      }
+  }
+  return (
     <div>
-    {loading ? <h1>Loading</h1>:<Loading search={search} setSearch={setSearch} counter={counter} setCounter={setCounter}/>}
+      <h1>{name}</h1>
+      <button onClick={increaseScore}>Increase score</button>
+      <button onClick={decreaseScore}>Decrease score</button>
     </div>
   )
 }
-const Counter = (props) => {
-  return (<div>
-      <h1>{props.counter}</h1>
-      <button style={{height:"50px", width:"70px"}}onClick={()=> props.setCounter(props.counter + 1)}>Change counter</button>
-      </div>
-  )
-}
-const Loading = (props) => {
-  return (<div style={{display:"flex", justifyContent: "center", height:"100vh", alignItems:"center"}}>
-    <Search search={props.search} setSearch={props.setSearch} />
-    <Counter counter={props.counter} setCounter={props.setCounter} />
-    </div>)}
 export default App;
